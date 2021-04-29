@@ -8,7 +8,17 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 export default class PastData extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            error: null,
+            data: [],
+            isLoading: true
+        };
+    }
+
     render() {
+        const { data, isLoading } = this.state;
         const { navigate } = this.props.navigation;
 
 

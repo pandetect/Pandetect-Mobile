@@ -5,6 +5,33 @@ import Icon from '@expo/vector-icons/AntDesign';
 
 export default class Register extends React.Component {
 
+    constructor(props) {
+        super(props);
+    
+        this.state = {
+          data: [],
+          isLoading: true,
+          error: null,
+          email: '',
+          password: '',
+          passwordAgain: '',
+        };
+      }
+
+
+    updateEmail = (email) => {
+        this.setState({email});
+    };
+
+    updatePassword = (password) => {
+        this.setState({password});
+    };
+
+    updatePasswordAgain = (passwordAgain) => {
+        this.setState({passwordAgain});
+    };
+
+
     render() {
         const { navigate } = this.props.navigation;
 
@@ -51,6 +78,7 @@ export default class Register extends React.Component {
                         placeholder="Email"
                         placeholderTextColor="#961B92"
                         style={{ paddingHorizontal: 10 }}
+                        onChangeText={this.updateEmail}
                     />
 
                 </View>
@@ -72,6 +100,7 @@ export default class Register extends React.Component {
                         placeholder="Password"
                         placeholderTextColor="#961B92"
                         style={{ paddingHorizontal: 10 }}
+                        onChangeText={this.updatePassword}
                     />
 
                 </View>
@@ -93,6 +122,7 @@ export default class Register extends React.Component {
                         placeholder="Confirm Password"
                         placeholderTextColor="#961B92"
                         style={{ paddingHorizontal: 10 }}
+                        onChangeText={this.updatePasswordAgain}
                     />
 
                 </View>

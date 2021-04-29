@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import Icon from '@expo/vector-icons/AntDesign';
 import MapView, { Marker, Callout } from 'react-native-maps';
+import { NavigationActions } from 'react-navigation';
 
 let points = [];
 let pointsName = [];
@@ -18,6 +19,8 @@ export default class Main extends React.Component {
             longitudePlace: 0,
             error: null,
             search: '',
+            data: [],
+            isLoading: true
         };
     }
 
@@ -46,6 +49,7 @@ export default class Main extends React.Component {
 
 
     render() {
+        const { data, isLoading } = this.state;
         const { navigate } = this.props.navigation;
         
 
@@ -108,7 +112,10 @@ export default class Main extends React.Component {
                                         text: "Cancel",
                                         style: "cancel"
                                     },
-                                    { text: "OK", onPress: () => navigate('Login') }
+                                    { text: "OK", onPress: () => 
+                                    this.props.navigation.reset([NavigationActions.navigate({routeName:'Login'})])
+                                    //navigate('Login')
+                                 }
                                 ]
                             )} />
                 </View>
