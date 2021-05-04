@@ -12,12 +12,16 @@ export default class Register extends React.Component {
           data: [],
           isLoading: true,
           error: null,
+          username: '',
           email: '',
           password: '',
           passwordAgain: '',
         };
       }
 
+    updateUsername = (username) => {
+        this.setState({username});
+    };
 
     updateEmail = (email) => {
         this.setState({email});
@@ -61,6 +65,29 @@ export default class Register extends React.Component {
                 >
                     Welcome!
                     </Text>
+
+                
+                    <View style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginHorizontal: 55,
+                    borderWidth: 2,
+                    marginTop: 30,
+                    paddingHorizontal: 10,
+                    borderColor: "#961B92",
+                    borderRadius: 23,
+                    paddingVertical: 2
+                }}>
+                    <Icon name="mail" color="#961B92" size={24} />
+                    <TextInput
+                        placeholder="Username"
+                        placeholderTextColor="#961B92"
+                        style={{ paddingHorizontal: 10 }}
+                        onChangeText={this.updateUsername}
+                    />
+
+                </View>
+
 
                 <View style={{
                     flexDirection: "row",
@@ -131,7 +158,22 @@ export default class Register extends React.Component {
                     <TouchableOpacity
                         style={styles.signUpBtn}>
                         <Text
-                            onPress={() => navigate('Login')}
+                            onPress={() => {
+                                fetch('https://pandetect-backend.herokuapp.com/users/signup', {
+                                    method: 'POST',
+                                    headers: {
+                                      Accept: 'application/json',
+                                      'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                      username: this.state.username,
+                                      password: this.state.password,
+                                      email: this.state.email
+                                    })
+                                  });
+
+                                  navigate('Login');
+                            }}
 
                             style={styles.signUpBtnText}>Sign Up</Text>
                     </TouchableOpacity>

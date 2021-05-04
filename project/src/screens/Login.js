@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, Image, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from '@expo/vector-icons/AntDesign';
-window.id = {};
+window.session = {};
 
 export default class Login extends React.Component {
 
@@ -104,7 +104,36 @@ export default class Login extends React.Component {
                     <TouchableOpacity
                         style={styles.loginBtn}>
                         <Text
-                            onPress={() => navigate('Main')}
+                            onPress={() => 
+                                {
+                                    fetch('https://pandetect-backend.herokuapp.com/users/signup', {
+                                    method: 'POST',
+                                    headers: {
+                                      Accept: 'application/json',
+                                      'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                      username: this.state.username,
+                                      password: this.state.password,
+                                      email: this.state.email
+                                    })
+                                  }).then((response) => response.json())
+                                  .then((json) => {
+                                      this.setState({ data: json });
+                                      if(json.status == 200){
+                                          console.log('fine')
+                                      }
+                                      else
+                                      {
+                                        console.log('error')
+                                      }
+                                  })
+                                  .catch((error) => console.error(error))
+                                  .finally(() => {
+                                      this.setState({ isLoading: false });
+                                  });
+                                  navigate('Main')                                 }
+                            }
 
                             style={styles.loginBtnText}>Login</Text>
                     </TouchableOpacity>
