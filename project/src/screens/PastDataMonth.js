@@ -57,7 +57,7 @@ export default class PastDataMonth extends React.Component {
                             fontFamily: "SemiBold",
                             paddingVertical: 10,
                             paddingHorizontal: 30
-                        }}>Coffee Break, Bilkent University, Ankara</Text>
+                        }}>{window.name}</Text>
 
 
                     <View
@@ -96,8 +96,7 @@ export default class PastDataMonth extends React.Component {
                         style={{
                             alignSelf: "center",
                             fontFamily: "SemiBold",
-                            paddingHorizontal: 30,
-                            marginBottom: 20
+                            paddingHorizontal: 30
                         }}>Monthly Compliance Rate</Text>
                     <LineChart
                         data={{
@@ -106,18 +105,18 @@ export default class PastDataMonth extends React.Component {
                             datasets: [
                                 {
                                     data: [
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100
+                                        78.89,
+                                        84.56,
+                                        70.44,
+                                        86.12,
+                                        60.76,
+                                        65.32,
+                                        70.12,
+                                        76.39,
+                                        80.23,
+                                        69.99,
+                                        77.13,
+                                        89.11
                                     ]
                                 }
                             ]
@@ -166,18 +165,18 @@ export default class PastDataMonth extends React.Component {
                             datasets: [
                                 {
                                     data: [
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100
+                                        86.12,
+                                        84.19,
+                                        88.36,
+                                        79.99,
+                                        81.12,
+                                        83.24,
+                                        90.32,
+                                        91.14,
+                                        89.16,
+                                        90.23,
+                                        94.52,
+                                        96.00
                                     ]
                                 }
                             ]

@@ -55,7 +55,7 @@ export default class CurrentData extends React.Component {
                         fontFamily: "SemiBold",
                         paddingVertical: 10,
                         paddingHorizontal: 30
-                    }}>Coffee Break, Bilkent University, Ankara</Text>
+                    }}>{window.name}</Text>
 
                 <Text
                     style={{

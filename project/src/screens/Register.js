@@ -1,7 +1,8 @@
 import React from 'react';
-import { Text, View, Image, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { Text, View, Image, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert } from 'react-native';
 import Icon from '@expo/vector-icons/AntDesign';
 // import { ScrollView } from 'react-native-gesture-handler';
+import { NavigationActions } from 'react-navigation';
 
 export default class Register extends React.Component {
 
@@ -94,7 +95,7 @@ export default class Register extends React.Component {
                     alignItems: "center",
                     marginHorizontal: 55,
                     borderWidth: 2,
-                    marginTop: 30,
+                    marginTop: 15,
                     paddingHorizontal: 10,
                     borderColor: "#961B92",
                     borderRadius: 23,
@@ -159,7 +160,7 @@ export default class Register extends React.Component {
                         style={styles.signUpBtn}>
                         <Text
                             onPress={() => {
-                                fetch('https://pandetect-backend.herokuapp.com/users/signup', {
+                                fetch('https://pandetect-backend2.herokuapp.com/users/signup', {
                                     method: 'POST',
                                     headers: {
                                       Accept: 'application/json',
@@ -170,9 +171,36 @@ export default class Register extends React.Component {
                                       password: this.state.password,
                                       email: this.state.email
                                     })
-                                  });
-
-                                  navigate('Login');
+                                  })
+                                  .then((response) => response.json()
+                                  .then((json) => {                      
+                                    if(json == 'User created successfuly'){
+                                        Alert.alert(
+                                            "Account Created",
+                                            "Your account has been created.",
+                                            [
+                                                { text: "OK", onPress: () => { 
+                                                    this.props.navigation.reset([NavigationActions.navigate({routeName:'Login'})]) 
+                                                } }
+                                            ]
+                                        )
+                                    }
+                                    else
+                                    {
+                                        Alert.alert(
+                                            "Problem Occured!",
+                                            "Be sure to provide valid information.",
+                                            [
+                                                {
+                                                    text: "OK"
+                                                }
+                                            ]
+                                        )
+                                    }
+                                  }  
+                                  ) );
+                                // BURAYA IF EKLE ALREADY EXISTSE HATA VERSIN
+                             
                             }}
 
                             style={styles.signUpBtnText}>Sign Up</Text>

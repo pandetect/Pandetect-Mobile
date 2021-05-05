@@ -1,12 +1,12 @@
 import React from 'react';
-import { Text, View, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, StyleSheet, Alert, Button } from 'react-native';
 import Icon from '@expo/vector-icons/AntDesign';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { NavigationActions } from 'react-navigation';
-
-let points = [];
-let pointsName = [];
-let index = -1;
+window.name = {};
+//let points = [];
+//let pointsName = [];
+//let index = -1;
 
 export default class Main extends React.Component {
 
@@ -20,14 +20,16 @@ export default class Main extends React.Component {
             error: null,
             search: '',
             data: [],
-            isLoading: true
+            isLoading: true,
+            markers: []
         };
     }
 
 
     updateSearch = (search) => {
         this.setState({search});
-        index = pointsName.indexOf(search.toLowerCase());
+        //index = this.state.markers.indexOf(e => e.title == search);
+        //console.log(index);
       };
 
     componentDidMount(position) {
@@ -44,6 +46,36 @@ export default class Main extends React.Component {
             error => this.setState({ error: error.message }),
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 2000 }
         );
+
+/*
+        this.setState({ markers: [
+            {
+            name: 'Migros, Sincan, Ankara',
+            coordinates: {
+                latitude: 39.883394722609125 + 0.05,
+                longitude: 32.56132484173652 + 0.05
+            },
+          },
+          {
+            name: 'Starbucks, Beytepe, Ankara',
+            coordinates: {
+                latitude: 39.883394722609125, 
+                longitude: 32.76132484173652
+            },  
+          }
+        ] });
+*/
+
+        fetch('https://pandetect-backend2.herokuapp.com/places')
+        .then((response) => response.json())
+        .then((json) => {
+        console.log(json);
+        this.setState({markers: json});
+        })
+        .catch((error) => {
+        console.error(error);
+        });
+
     }
 
 
@@ -52,7 +84,7 @@ export default class Main extends React.Component {
         const { data, isLoading } = this.state;
         const { navigate } = this.props.navigation;
         
-
+/*
         for (let i = 0; i < 3; i++) {
             points[i] = {
                 latitude: this.state.latitude + (i + 1) * 0.05,
@@ -62,12 +94,36 @@ export default class Main extends React.Component {
             }
         }
 
+        points[2] = {
+            latitude: 39.883394722609125, 
+            longitude: 32.76132484173652
+            //latitude: 37.33233 + (i) *0.005,
+            //longitude: -122.03121  + (i) *0.005
+        }
         let name = 'Place'
         for (let i = 0; i < 3; i++) {
             pointsName[i] = 
             name.toLowerCase() + ' ' + (i+1).toString();
         }
 
+
+        this.setState({ markers: [
+            {
+            title: 'hello',
+            coordinates: {
+              latitude: 3.148561,
+              longitude: 101.652778
+            },
+          },
+          {
+            title: 'hello2',
+            coordinates: {
+              latitude: 3.149771,
+              longitude: 108.655449
+            },  
+          }
+        ] });
+*/
 
         return (
             <View style={{ backgroundColor: "#FFF", height: "100%" }}>
@@ -122,15 +178,20 @@ export default class Main extends React.Component {
                                
                 <View
                     style={styles.topBtnContainer}>
+
+                  
+                    {window.isBusiness ? 
                     <TouchableOpacity
                         style={styles.topUserBtn}>
-                        <Icon name="videocamera" color="#961B92" size={24}
+                        <Icon name="linechart" color="#961B92" size={24}
                             onPress={() => navigate('')} />
                         <Text
                             onPress={() => navigate('')}
 
-                            style={styles.topBtnText}>Stream</Text>
+                            style={styles.topBtnText}>Statistics</Text>
                     </TouchableOpacity>
+                     : null}
+                    
                     <TouchableOpacity
                         style={styles.topUserBtn}>
                         <Icon name="form" color="#961B92" size={24}
@@ -177,9 +238,22 @@ export default class Main extends React.Component {
                 
                 
 
-                <Icon onPress={() => {if(index != -1){
-                        this.setState({latitudePlace: points[index].latitude, longitudePlace: points[index].longitude});
-                    }}}
+                <Icon onPress={() => {//if(index != -1){
+                        //this.setState({latitudePlace: points[index].latitude, longitudePlace: points[index].longitude});
+                        let bool = this.state.markers.some(e => e.name == this.state.search);
+                        console.log('***');
+                        console.log(bool);
+                        //console.log(this.state.markers[{title: this.state.search}]);
+                        var dict = this.state.markers;
+                        for (var key in dict) {
+                          if(dict[key].name == this.state.search){
+                              console.log(dict[key])
+                              this.setState({latitudePlace: Number(dict[key].latitude), longitudePlace: Number(dict[key].longitude)});
+                              break;
+                            }
+                        }
+                    //}
+                    }}
 
                     style={{
                         marginTop: 0,
@@ -231,37 +305,23 @@ export default class Main extends React.Component {
                             longitudeDelta: 0.121
                         }}
                     >
-
+                        
                         <Marker
                             coordinate={this.state}
                         />
 
-                        <Marker
-                            coordinate={points[0]}
-                            image={require('../images/marker.png')}
-                            title="Place Name"
-                            onCalloutPress={() => navigate('CurrentData')}
-                        >
-                            <Callout><Text>Place Name 1</Text></Callout>
-                        </Marker>
 
-                        <Marker
-                            coordinate={points[1]}
+                        {this.state.markers.map(marker => (
+                            <Marker
+                            key={marker.name}
+                            coordinate={{latitude: Number(marker.latitude), longitude: Number(marker.longitude)}}
                             image={require('../images/marker.png')}
-                            title="Place Name"
-                            onCalloutPress={() => console.log(2)}
-                        >
-                            <Callout><Text>Place Name 2</Text></Callout>
-                        </Marker>
+                            title={marker.name}
+                            onCalloutPress={() => {window.name = marker.name; navigate('CurrentData');}}
+                            />
+                        ))}
 
-                        <Marker
-                            coordinate={points[2]}
-                            image={require('../images/marker.png')}
-                            title="Place Name"
-                            onCalloutPress={() => console.log(3)}
-                        >
-                            <Callout><Text>Place Name 3</Text></Callout>
-                        </Marker>
+
                     </MapView>   
                 </View>
 

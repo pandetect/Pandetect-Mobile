@@ -1,7 +1,8 @@
 import React from 'react';
-import { Text, View, Image, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, View, Image, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import Icon from '@expo/vector-icons/AntDesign';
 window.session = {};
+window.isBusiness ={};
 
 export default class Login extends React.Component {
 
@@ -13,7 +14,8 @@ export default class Login extends React.Component {
           isLoading: true,
           error: null,
           email: '',
-          password: ''
+          password: '',
+          token: ''
         };
       }
 
@@ -23,6 +25,10 @@ export default class Login extends React.Component {
 
       updatePassword = (password) => {
         this.setState({password});
+      };
+
+      updateToken = (token) => {
+        this.setState({token});
       };
 
     render() {
@@ -106,33 +112,49 @@ export default class Login extends React.Component {
                         <Text
                             onPress={() => 
                                 {
-                                    fetch('https://pandetect-backend.herokuapp.com/users/signup', {
+                                    
+                                fetch('https://pandetect-backend2.herokuapp.com/users/login', {
                                     method: 'POST',
                                     headers: {
                                       Accept: 'application/json',
                                       'Content-Type': 'application/json'
                                     },
                                     body: JSON.stringify({
-                                      username: this.state.username,
+                                      username: this.state.email,
                                       password: this.state.password,
-                                      email: this.state.email
                                     })
                                   }).then((response) => response.json())
-                                  .then((json) => {
-                                      this.setState({ data: json });
-                                      if(json.status == 200){
-                                          console.log('fine')
-                                      }
-                                      else
-                                      {
-                                        console.log('error')
-                                      }
-                                  })
-                                  .catch((error) => console.error(error))
-                                  .finally(() => {
-                                      this.setState({ isLoading: false });
-                                  });
-                                  navigate('Main')                                 }
+                                    .then((json)=>{
+                                        console.log("json.token", json.token);
+                                        if(json.token === undefined){
+                                            Alert.alert(
+                                                "Invalid Data Provided",
+                                                "Either email or password is incorrect. Be sure to provide valid information.",
+                                                [
+                                                    {
+                                                        text: "OK"
+                                                    }
+                                                ]
+                                            )
+                                        }
+                                        else{
+                                            window.session = json.token;
+                                            if(this.state.email == 'ubombar'){
+                                                window.isBusiness = true;
+                                            }
+                                            else{window.isBusiness = false;}
+                                            navigate('Main');
+                                        }
+                                        //this.updateToken(json.token),
+                                    }
+                                    )
+                                    .catch((error) => console.error(error))
+                                    .finally(() => {
+                                        this.setState({ isLoading: false });
+                                    });
+                                    //BURAYA IF EKLE UNDEFINED DEGILSE NAVIGATE ETSIN
+                                                                
+                                }
                             }
 
                             style={styles.loginBtnText}>Login</Text>
@@ -183,3 +205,33 @@ const styles = StyleSheet.create({
         width: "35%"
     }
 });
+
+
+
+  //     fetch('https://pandetect-backend2.herokuapp.com/users/login', {
+                                //     method: 'POST',
+                                //     headers: {
+                                //       Accept: 'application/json',
+                                //       'Content-Type': 'application/json'
+                                //     },
+                                //     body: JSON.stringify({
+                                //       username: this.state.username,
+                                //       password: this.state.password,
+                                //       email: this.state.email
+                                //     })
+                                //   }).then((response) => response.json())
+                                //   .then((json) => {
+                                //       this.setState({ data: json });
+                                //       if(json.status == 200){
+                                //           console.log('fine')
+                                //       }
+                                //       else
+                                //       {
+                                //         console.log('error')
+                                //       }
+                                //   })
+                                //   .catch((error) => console.error(error))
+                                //   .finally(() => {
+                                //       this.setState({ isLoading: false });
+                                //   });
+                                //console.log("this state token: ", this.state.token);

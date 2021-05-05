@@ -8,17 +8,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 export default class PastData extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            error: null,
-            data: [],
-            isLoading: true
-        };
-    }
-
     render() {
-        const { data, isLoading } = this.state;
         const { navigate } = this.props.navigation;
 
 
@@ -67,7 +57,7 @@ export default class PastData extends React.Component {
                         fontFamily: "SemiBold",
                         paddingVertical: 10,
                         paddingHorizontal: 30
-                    }}>Coffee Break, Bilkent University, Ankara</Text>
+                    }}>{window.name}</Text>
 
 
                 <View
@@ -117,30 +107,30 @@ export default class PastData extends React.Component {
                         datasets: [
                             {
                                 data: [
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100
+                                    100.00,
+                                    100.00,
+                                    100.00,
+                                    100.00,
+                                    100.00,
+                                    100.00,
+                                    100.00,
+                                    100.00,
+                                    90.41,
+                                    75.56,
+                                    80.20,
+                                    86.44,
+                                    70.21,
+                                    65.64,
+                                    67.87,
+                                    81.10,
+                                    86.59,
+                                    87.53,
+                                    78.66,
+                                    89.90,
+                                    95.77,
+                                    100.00,
+                                    100.00,
+                                    100.00
                                 ]
                             }
                         ]
@@ -199,30 +189,30 @@ export default class PastData extends React.Component {
                             datasets: [
                                 {
                                     data: [
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100
+                                        100.00,
+                                        100.00,
+                                        100.00,
+                                        100.00,
+                                        100.00,
+                                        100.00,
+                                        25.11,
+                                        48.52,
+                                        70.49,
+                                        88.56,
+                                        79.44,
+                                        77.98,
+                                        65.21,
+                                        66.73,
+                                        84.99,
+                                        95.14,
+                                        92.36,
+                                        96.14,
+                                        90.25,
+                                        89.43,
+                                        87.66,
+                                        100.00,
+                                        100.00,
+                                        100.00
                                     ]
                                 }
                             ]

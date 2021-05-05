@@ -1,16 +1,50 @@
 import React from 'react';
-import { Text, View, Image, TextInput, TouchableOpacity, Textfield, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { Text, View, Image, TextInput, TouchableOpacity, Textfield, StyleSheet, KeyboardAvoidingView, Alert } from 'react-native';
 import Icon from '@expo/vector-icons/AntDesign';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-
+import { NavigationActions } from 'react-navigation';
 export default class ApplicationForm extends React.Component {
+
+    constructor(props) {
+        super(props);
+    
+        this.state = {
+          data: [],
+          isLoading: true,
+          error: null,
+          name: '',
+          email: '',
+          location: '',
+          number: '',
+          notes:''
+        };
+      }
+
+    updateName = (name) => {
+        this.setState({name});
+    };
+
+    updateEmail = (email) => {
+        this.setState({email});
+    };
+
+    updateLocation = (location) => {
+        this.setState({location});
+    };
+
+    updateNotes = (notes) => {
+        this.setState({notes});
+    };
+
+    updateNumber = (number) => {
+        this.setState({number});
+    };
 
     render() {
         const { navigate } = this.props.navigation;
         return (
             <KeyboardAwareScrollView style={{ backgroundColor: "#FFF", height: "100%" }}>
             
-
             <View style={{
                     flexDirection: "row", 
                     marginTop: 35,
@@ -82,6 +116,7 @@ export default class ApplicationForm extends React.Component {
                         placeholder="Email"
                         placeholderTextColor="#961B92"
                         style={{ paddingHorizontal: 10 }}
+                        onChangeText={this.updateEmail}
                     />
 
 
@@ -103,10 +138,8 @@ export default class ApplicationForm extends React.Component {
                         placeholder="Place Name"
                         placeholderTextColor="#961B92"
                         style={{ paddingHorizontal: 10 }}
+                        onChangeText={this.updateName}
                     />
-
-
-
 
                 </View>
                 <View style={{
@@ -125,6 +158,7 @@ export default class ApplicationForm extends React.Component {
                         placeholder="Place Location"
                         placeholderTextColor="#961B92"
                         style={{ paddingHorizontal: 10 }}
+                        onChangeText={this.updateLocation}
                     />
 
 
@@ -146,6 +180,7 @@ export default class ApplicationForm extends React.Component {
                         placeholder="Phone Number"
                         placeholderTextColor="#961B92"
                         style={{ paddingHorizontal: 10 }}
+                        onChangeText={this.updateNumber}
                     />
 
                 </View>
@@ -166,6 +201,7 @@ export default class ApplicationForm extends React.Component {
                         numberOfLines={6}
                         placeholder="Additional Notes"
                         placeholderTextColor="#961B92"
+                        onChangeText={this.updateNotes}
                         style={{
                             paddingHorizontal: 10,
                             paddingTop: 10,
@@ -179,8 +215,48 @@ export default class ApplicationForm extends React.Component {
                     <TouchableOpacity
                         style={styles.submitBtn}>
                         <Text
-                            onPress={() => navigate('Login')}
-
+                            onPress={() => 
+                            
+                                {
+                                    
+                                    fetch('https://pandetect-backend2.herokuapp.com/business/register', {
+                                        method: 'POST',
+                                        headers: {
+                                          Accept: 'application/json',
+                                          'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({
+                                          email: this.state.email,
+                                          name: this.state.name,
+                                          number: this.state.number,
+                                          notes: this.state.notes,
+                                          location: this.state.location,
+                                        })
+                                      }).then((response) => response.json())
+                                        .then((json)=>{
+                                            Alert.alert(
+                                                "Request Sent",
+                                                "Form request is succesfully sent.",
+                                                [
+                                                    
+                                                        { text: "OK", onPress: () => { 
+                                                            this.props.navigation.reset([NavigationActions.navigate({routeName:'Login'})]) 
+                                                        } }
+                                                    
+                                                ]
+                                            )
+            
+                                        }
+                                        )
+                                        .catch((error) => console.error(error))
+                                        .finally(() => {
+                                            this.setState({ isLoading: false });
+                                        });
+                                                    
+                                    }
+                            
+                            
+                            }       
                             style={styles.submitBtnText}>Submit</Text>
                     </TouchableOpacity>
                 </View>

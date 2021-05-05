@@ -58,7 +58,7 @@ export default class PastWeek extends React.Component {
                             fontFamily: "SemiBold",
                             paddingVertical: 10,
                             paddingHorizontal: 30
-                        }}>Coffee Break, Bilkent University, Ankara</Text>
+                        }}>{window.name}</Text>
 
 
                     <View
@@ -105,10 +105,10 @@ export default class PastWeek extends React.Component {
                             datasets: [
                                 {
                                     data: [
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100
+                                        85.12,
+                                        82.64,
+                                        88.90,
+                                        85.34
                                     ]
                                 }
                             ]
@@ -156,10 +156,10 @@ export default class PastWeek extends React.Component {
                             datasets: [
                                 {
                                     data: [
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100,
-                                        Math.random() * 100
+                                        85.69,
+                                        85.14,
+                                        88.10,
+                                        90.00
                                     ]
                                 }
                             ]

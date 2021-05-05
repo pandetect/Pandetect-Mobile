@@ -53,7 +53,7 @@ export default class Main extends React.Component {
                         opacity: 0.4
                     }}
                 >
-                    You can report bugs or make suggestions.
+                    You can report compliance conflicts or make suggestions.
                 </Text>
 
                 <View style={{
