@@ -5,12 +5,134 @@ import {
     LineChart
 } from "react-native-chart-kit";
 import { ScrollView } from 'react-native-gesture-handler';
+let arr = [];
 
 export default class PastData extends React.Component {
+    constructor(props) {
+        super(props);
+    
+        this.state = {
+          data: [],
+          isLoading: true,
+          error: null,
+          numberOfPeople: '',
+          numberOfUnmasked: '',
+          numberOfMasked: '',
+          numberOfDistanceViolation: '',
+          numberOfUncertain: '',
+          maskY: []
+        };
+      }
+
+
+
+      componentDidMount() {
+          /*
+        fetch('https://pandetect-backend2.herokuapp.com/statistics/mobilegraph', {
+                                    method: 'POST',
+                                    headers: {
+                                      Accept: 'application/json',
+                                      'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                      businessUuid: window.placeID,
+                                      startDate: this.state.startDate,
+                                      endDate: this.state.endDate
+                                    })
+        })
+        .then((response) => response.json())
+        .then((json) => {
+            //console.log('****');
+            //console.log(json);
+            console.log(json.avgNumberOfPeople);
+            
+        })
+        .catch((error) => {
+        console.error(error);
+        });
+        */
+
+        let endDate_ = new Date(Date.now()); 
+        let startDate_ = new Date(endDate_ - 1000 * 60 * 60 * 24);
+       // startDate_.setHours(endDate_.getHours()-1);
+       // console.log(endDate_);
+       // console.log(startDate_);
+
+        fetch('https://pandetect-backend2.herokuapp.com/statistics/mobilegraph', {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              businessUuid: window.placeID,
+              startDate: startDate_,
+              endDate: endDate_
+            })
+            })
+            .then((response) => response.json())
+            .then((json) => {
+            //console.log(json);
+            console.log("here****1");
+            console.log(json);
+            //console.log(json.avgNumberOfMasked);
+            this.setState({maskY: json.map(value => value.avgNumberOfMasked)});
+            console.log(this.state.maskY);
+            //arr = this.state.maskY;
+            //console.log(arr);
+            console.log("here****2");
+            })
+            .catch((error) => {
+            console.error(error);
+            });
+
+            console.log(window.placeID);
+            console.log("here****3");
+
+    }
+
+
 
     render() {
         const { navigate } = this.props.navigation;
 
+        /*
+
+        //this.setState({endDate: Date.now(), startDate: Date.now() - 1000 * 60 * 60});
+    
+        let endDate_ = new Date(Date.now()); 
+        let startDate_ = new Date(endDate_ - 1000 * 60 * 60 * 48);
+       // startDate_.setHours(endDate_.getHours()-1);
+       // console.log(endDate_);
+       // console.log(startDate_);
+
+        fetch('https://pandetect-backend2.herokuapp.com/statistics/mobilegraph', {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              businessUuid: window.placeID,
+              startDate: startDate_,
+              endDate: endDate_
+            })
+            })
+            .then((response) => response.json())
+            .then((json) => {
+            //console.log('****');
+            //console.log(json);
+            console.log("here****1");
+            //console.log(json);
+            
+            })
+            .catch((error) => {
+            console.error(error);
+            });
+
+            console.log(window.placeID);
+            console.log("here****");
+        */
 
         return (
             <View style={{ backgroundColor: "#FFF", height: "100%" }}>
@@ -105,7 +227,8 @@ export default class PastData extends React.Component {
                                 "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
                                 "21", "22", "23", "00"],
                         datasets: [
-                            {
+                            {  
+                               
                                 data: [
                                     100.00,
                                     100.00,
@@ -132,6 +255,8 @@ export default class PastData extends React.Component {
                                     100.00,
                                     100.00
                                 ]
+                                
+                                
                             }
                         ]
                     }}

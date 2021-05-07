@@ -4,6 +4,7 @@ import Icon from '@expo/vector-icons/AntDesign';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { NavigationActions } from 'react-navigation';
 window.name = {};
+window.placeID = {};
 //let points = [];
 //let pointsName = [];
 //let index = -1;
@@ -75,7 +76,7 @@ export default class Main extends React.Component {
         .catch((error) => {
         console.error(error);
         });
-
+        
     }
 
 
@@ -189,7 +190,11 @@ export default class Main extends React.Component {
                                                 navigate('CurrentData');
                                             }} />
                         <Text
-                            onPress={() => navigate('CurrentData')}
+                            onPress={() => {
+                                this.props.navigation.reset([NavigationActions.navigate({routeName:'Login'})])
+                                //navigate('CurrentData')
+                                }
+                            }
 
                             style={styles.topBtnText}>Statistics</Text>
                     </TouchableOpacity>
@@ -320,7 +325,10 @@ export default class Main extends React.Component {
                             coordinate={{latitude: Number(marker.latitude), longitude: Number(marker.longitude)}}
                             image={require('../images/marker.png')}
                             title={marker.name}
-                            onCalloutPress={() => {window.name = marker.name; navigate('CurrentData');}}
+                            onCalloutPress={() => { window.name = marker.name; window.placeID = marker.uuid; 
+                                //navigate('CurrentData'); 
+                                this.props.navigation.reset([NavigationActions.navigate({routeName:'CurrentData'})])
+                            }}
                             />
                         ))}
 

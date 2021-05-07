@@ -1,6 +1,8 @@
 import React from 'react';
 import { Text, View, Image, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import Icon from '@expo/vector-icons/AntDesign';
+import { NavigationActions } from 'react-navigation';
+window.name = {};
 window.session = {};
 window.isBusiness ={};
 
@@ -143,7 +145,8 @@ export default class Login extends React.Component {
                                                 window.isBusiness = true;
                                             }
                                             else{window.isBusiness = false;}
-                                            navigate('Main');
+                                            //navigate('Main');
+                                            this.props.navigation.reset([NavigationActions.navigate({routeName:'Main'})]) //***
                                         }
                                         //this.updateToken(json.token),
                                     }
