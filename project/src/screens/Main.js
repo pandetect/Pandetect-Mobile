@@ -184,9 +184,12 @@ export default class Main extends React.Component {
                     <TouchableOpacity
                         style={styles.topUserBtn}>
                         <Icon name="linechart" color="#961B92" size={24}
-                            onPress={() => navigate('')} />
+                            onPress={() => {
+                                                window.name = 'Beytepe Device';
+                                                navigate('CurrentData');
+                                            }} />
                         <Text
-                            onPress={() => navigate('')}
+                            onPress={() => navigate('CurrentData')}
 
                             style={styles.topBtnText}>Statistics</Text>
                     </TouchableOpacity>

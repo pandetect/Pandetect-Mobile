@@ -7,9 +7,62 @@ import {
 import { ScrollView } from 'react-native-gesture-handler';
 
 export default class CurrentData extends React.Component {
+    constructor(props) {
+        super(props);
+    
+        this.state = {
+          data: [],
+          isLoading: true,
+          error: null,
+          numberOfPeople: '',
+          numberOfUnmasked: '',
+          numberOfMasked: '',
+          numberOfDistanceViolation: '',
+          numberOfUncertain: '',
+        };
+      }
+
+    componentDidMount() {
+        fetch('https://pandetect-backend2.herokuapp.com/statistics/mobilestats')
+        .then((response) => response.json())
+        .then((json) => {
+            //console.log('****');
+            //console.log(json);
+            console.log(json.avgNumberOfPeople);
+            if(window.name == 'Beytepe Device'){
+                this.setState({numberOfPeople: json.avgNumberOfPeople.toFixed(3)});
+                this.setState({numberOfUnmasked: json.avgNumberOfUnmasked.toFixed(3)});
+                this.setState({numberOfMasked: json.avgNumberOfMasked.toFixed(3)});
+                this.setState({numberOfDistanceViolation: json.avgDistanceViolationDuration.toFixed(3)});
+                this.setState({numberOfUncertain: json.avgNumberOfUncertain.toFixed(3)});
+            }
+            else if(window.name == 'Starbucks, Bilkent 2'){
+
+                this.setState({numberOfPeople: 50});
+                this.setState({numberOfUnmasked: 3});
+                this.setState({numberOfMasked: 44});
+                this.setState({numberOfDistanceViolation: 2.10});
+                this.setState({numberOfUncertain: 3});
+            }
+            else{
+
+                this.setState({numberOfPeople: 0});
+                this.setState({numberOfUnmasked: 0});
+                this.setState({numberOfMasked: 0});
+                this.setState({numberOfDistanceViolation: 0});
+                this.setState({numberOfUncertain: 0});
+            }
+            
+        })
+        .catch((error) => {
+        console.error(error);
+        });
+    }
 
     render() {
         const { navigate } = this.props.navigation;
+
+        
 
         return (
             <View style={{ backgroundColor: "#FFF", height: "100%" }}>
@@ -65,31 +118,49 @@ export default class CurrentData extends React.Component {
                         fontFamily: "SemiBold",
                         paddingVertical: 10,
                         paddingHorizontal: 30
-                    }}>Based on Average for 15 Minutes</Text>
+                    }}>Based on Average for 2 Minutes</Text>
 
                 <Text
                     style={{
                         marginTop: 20,
                         fontFamily: "SemiBold",
-                        paddingVertical: 10,
+                        paddingVertical: 8,
                         paddingHorizontal: 30
-                    }}>There are 50 People</Text>
+                    }}>Number of people: {this.state.numberOfPeople}</Text>
 
                 <Text
                     style={{
                         marginTop: 20,
                         fontFamily: "SemiBold",
-                        paddingVertical: 10,
+                        paddingVertical: 8,
                         paddingHorizontal: 30
-                    }}>96% Wears a Mask</Text>
+                    }}>Number of unmasked: {this.state.numberOfUnmasked}</Text>
 
                 <Text
                     style={{
                         marginTop: 20,
                         fontFamily: "SemiBold",
-                        paddingVertical: 10,
+                        paddingVertical: 8,
                         paddingHorizontal: 30
-                    }}>76% Obeys Social Distancing</Text>
+                    }}>Number of masked: {this.state.numberOfMasked}</Text>
+
+                <Text
+                    style={{
+                        marginTop: 20,
+                        fontFamily: "SemiBold",
+                        paddingVertical: 8,
+                        paddingHorizontal: 30
+                    }}>Number of uncertain mask usage: {this.state.numberOfUncertain}</Text>
+
+
+                <Text
+                    style={{
+                        marginTop: 20,
+                        fontFamily: "SemiBold",
+                        paddingVertical: 8,
+                        paddingHorizontal: 30
+                    }}>Distance violation duration: {this.state.numberOfDistanceViolation} min</Text>
+
 
                 <Text
                     style={{
